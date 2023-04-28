@@ -1,10 +1,11 @@
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 import pyspark.sql.types as t
-import pyspark.sql.functions as f
+
 
 import read_write
 import task1
+import task2
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -34,8 +35,8 @@ def main():
     schema01=t.StructType([
         t.StructField("nconst", t.StringType(), True),
         t.StructField("primaryName", t.StringType(), True),
-        t.StructField("birthYear", t.DateType(), True),
-        t.StructField("deathYear", t.DateType(), True),
+        t.StructField("birthYear", t.IntegerType(), True),
+        t.StructField("deathYear", t.IntegerType(), True),
         t.StructField("primaryProfession", t.StringType(), True), #Array
         t.StructField("knownForTitles", t.StringType(), True) #Array
     ])
@@ -150,10 +151,10 @@ def main():
     ratings_df = read_write.read(path07, schema07, spark_session)
 
 
-    # name_df.show()
-    # print(name_df.count())
-    # name_df.printSchema()
-    #
+    name_df.show()
+    print(name_df.count())
+    name_df.printSchema()
+
     # akas_df.show()
     # print(akas_df.count())
     # akas_df.printSchema()
@@ -178,7 +179,8 @@ def main():
     # print(ratings_df.count())
     # ratings_df.printSchema()
 
-    task1.task1(akas_df)
+    #task1.task1(akas_df)
+    task2.task2(name_df)
 
 
 if __name__ == "__main__":
