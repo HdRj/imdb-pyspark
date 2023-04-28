@@ -6,6 +6,7 @@ import pyspark.sql.types as t
 import read_write
 import task1
 import task2
+import task3
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -151,17 +152,17 @@ def main():
     ratings_df = read_write.read(path07, schema07, spark_session)
 
 
-    name_df.show()
-    print(name_df.count())
-    name_df.printSchema()
+    # name_df.show()
+    # print(name_df.count())
+    # name_df.printSchema()
 
     # akas_df.show()
     # print(akas_df.count())
     # akas_df.printSchema()
     #
-    # basics_df.show()
-    # print(basics_df.count())
-    # basics_df.printSchema()
+    basics_df.show()
+    print(basics_df.count())
+    basics_df.printSchema()
     #
     # crew_df.show()
     # print(crew_df.count())
@@ -180,7 +181,8 @@ def main():
     # ratings_df.printSchema()
 
     #task1.task1(akas_df)
-    task2.task2(name_df)
+    #task2.task2(name_df)
+    task3.task3(basics_df)
 
 
 if __name__ == "__main__":
