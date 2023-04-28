@@ -178,7 +178,7 @@ def main():
     # print(ratings_df.count())
     # ratings_df.printSchema()
 
-    #task1.task1(akas_df)
+    task1.task1(akas_df)
 
 
 if __name__ == "__main__":
