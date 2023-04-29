@@ -182,7 +182,7 @@ def main():
 
     #task1.task1(akas_df)
     #task2.task2(name_df)
-    task3.task3(basics_df)
+    #task3.task3(basics_df)
 
 
 if __name__ == "__main__":
