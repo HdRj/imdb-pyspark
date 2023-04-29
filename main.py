@@ -11,6 +11,7 @@ import task4
 import task5
 import task6
 import task7
+import task8
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -189,8 +190,8 @@ def main():
     # task4.task4(basics_df, name_df, principals_df)
     # task5.task5(akas_df, basics_df)
     # task6.task6(episode_df, basics_df)
-    task7.task7(basics_df, ratings_df)
-    # task8.task8(basics_df, ratings_df)
+    # task7.task7(basics_df, ratings_df)
+    task8.task8(basics_df, ratings_df)
 
 if __name__ == "__main__":
     main()
