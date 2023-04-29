@@ -10,6 +10,7 @@ import task3
 import task4
 import task5
 import task6
+import task7
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -85,8 +86,8 @@ def main():
         t.StructField("primaryTitle", t.StringType(), True),
         t.StructField("originalTitle", t.StringType(), True),
         t.StructField("isAdult", t.IntegerType(), True),
-        t.StructField("startYear", t.DateType(), True),
-        t.StructField("endYear", t.DateType(), True),
+        t.StructField("startYear", t.IntegerType(), True),
+        t.StructField("endYear", t.IntegerType(), True),
         t.StructField("runtimeMinutes", t.IntegerType(), True),
         t.StructField("genres", t.StringType(), True)  # Array
     ])
@@ -161,23 +162,23 @@ def main():
     # akas_df.show()
     # print(akas_df.count())
     # akas_df.printSchema()
-    #
+
     # basics_df.show()
     # print(basics_df.count())
     # basics_df.printSchema()
-    #
+
     # crew_df.show()
     # print(crew_df.count())
     # crew_df.printSchema()
-
+    #
     # episode_df.show()
     # print(episode_df.count())
     # episode_df.printSchema()
-
+    #
     # principals_df.show()
     # print(principals_df.count())
     # principals_df.printSchema()
-    #
+
     # ratings_df.show()
     # print(ratings_df.count())
     # ratings_df.printSchema()
@@ -187,7 +188,9 @@ def main():
     # task3.task3(basics_df)
     # task4.task4(basics_df, name_df, principals_df)
     # task5.task5(akas_df, basics_df)
-    task6.task6(episode_df, basics_df)
+    # task6.task6(episode_df, basics_df)
+    task7.task7(basics_df, ratings_df)
+    # task8.task8(basics_df, ratings_df)
 
 if __name__ == "__main__":
     main()
