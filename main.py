@@ -1,12 +1,13 @@
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 import pyspark.sql.types as t
-
+import pyspark.sql.functions as f
 
 import read_write
 import task1
 import task2
 import task3
+import task4
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -24,34 +25,34 @@ def main():
                      .config(conf=SparkConf())
                      .getOrCreate())
 
-    #name.basics.tsv.gz
-    #====================
-    #nconst (string) - alphanumeric unique identifier of the name/person
-    #primaryName (string)– name by which the person is most often credited
-    #birthYear – in YYYY format
-    #deathYear – in YYYY format if applicable, else '\N'
-    #primaryProfession (array of strings)– the top-3 professions of the person
-    #knownForTitles (array of tconsts) – titles the person is known for
+    # name.basics.tsv.gz
+    # ====================
+    # nconst (string) - alphanumeric unique identifier of the name/person
+    # primaryName (string)– name by which the person is most often credited
+    # birthYear – in YYYY format
+    # deathYear – in YYYY format if applicable, else '\N'
+    # primaryProfession (array of strings)– the top-3 professions of the person
+    # knownForTitles (array of tconsts) – titles the person is known for
 
-    schema01=t.StructType([
+    schema01 = t.StructType([
         t.StructField("nconst", t.StringType(), True),
         t.StructField("primaryName", t.StringType(), True),
         t.StructField("birthYear", t.IntegerType(), True),
         t.StructField("deathYear", t.IntegerType(), True),
-        t.StructField("primaryProfession", t.StringType(), True), #Array
-        t.StructField("knownForTitles", t.StringType(), True) #Array
+        t.StructField("primaryProfession", t.StringType(), True),  # Array
+        t.StructField("knownForTitles", t.StringType(), True)  # Array
     ])
 
-    #title.akas.tsv.gz
-    #======================
-    #titleId (string) - a tconst, an alphanumeric unique identifier of the title
-    #ordering (integer) – a number to uniquely identify rows for a given titleId
-    #title (string) – the localized title
-    #region (string) - the region for this version of the title
-    #language (string) - the language of the title
-    #types (array) - Enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". New values may be added in the future without warning
-    #attributes (array) - Additional terms to describe this alternative title, not enumerated
-    #isOriginalTitle (boolean) – 0: not original title; 1: original title
+    # title.akas.tsv.gz
+    # ======================
+    # titleId (string) - a tconst, an alphanumeric unique identifier of the title
+    # ordering (integer) – a number to uniquely identify rows for a given titleId
+    # title (string) – the localized title
+    # region (string) - the region for this version of the title
+    # language (string) - the language of the title
+    # types (array) - Enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". New values may be added in the future without warning
+    # attributes (array) - Additional terms to describe this alternative title, not enumerated
+    # isOriginalTitle (boolean) – 0: not original title; 1: original title
 
     schema02 = t.StructType([
         t.StructField("titleId", t.StringType(), True),
@@ -59,8 +60,8 @@ def main():
         t.StructField("title", t.StringType(), True),
         t.StructField("region", t.StringType(), True),
         t.StructField("language", t.StringType(), True),
-        t.StructField("types", t.StringType(), True), #Array
-        t.StructField("attributes", t.StringType(), True),  #Array
+        t.StructField("types", t.StringType(), True),  # Array
+        t.StructField("attributes", t.StringType(), True),  # Array
         t.StructField("isOriginalTitle", t.BooleanType(), True)
     ])
 
@@ -85,26 +86,26 @@ def main():
         t.StructField("startYear", t.DateType(), True),
         t.StructField("endYear", t.DateType(), True),
         t.StructField("runtimeMinutes", t.IntegerType(), True),
-        t.StructField("genres", t.StringType(), True) #Array
+        t.StructField("genres", t.StringType(), True)  # Array
     ])
 
-    #title.crew.tsv.gz
-    #===================
-    #tconst (string) - alphanumeric unique identifier of the title
-    #directors (array of nconsts) - director(s) of the given title
-    #writers (array of nconsts) – writer(s) of the given title
+    # title.crew.tsv.gz
+    # ===================
+    # tconst (string) - alphanumeric unique identifier of the title
+    # directors (array of nconsts) - director(s) of the given title
+    # writers (array of nconsts) – writer(s) of the given title
 
     schema04 = t.StructType([
         t.StructField("tconst", t.StringType(), True),
-        t.StructField("directors", t.StringType(), True), #Array
+        t.StructField("directors", t.StringType(), True),  # Array
         t.StructField("writers", t.StringType(), True)  # Array
     ])
 
-    #title.episode.tsv.gz
-    #tconst (string) - alphanumeric identifier of episode
-    #parentTconst (string) - alphanumeric identifier of the parent TV Series
-    #seasonNumber (integer) – season number the episode belongs to
-    #episodeNumber (integer) – episode number of the tconst in the TV series
+    # title.episode.tsv.gz
+    # tconst (string) - alphanumeric identifier of episode
+    # parentTconst (string) - alphanumeric identifier of the parent TV Series
+    # seasonNumber (integer) – season number the episode belongs to
+    # episodeNumber (integer) – episode number of the tconst in the TV series
 
     schema05 = t.StructType([
         t.StructField("tconst", t.StringType(), True),
@@ -114,7 +115,7 @@ def main():
     ])
 
     # title.principals.tsv.gz
-    #==========================
+    # ==========================
     # tconst (string) - alphanumeric unique identifier of the title
     # ordering (integer) – a number to uniquely identify rows for a given titleId
     # nconst (string) - alphanumeric unique identifier of the name/person
@@ -151,18 +152,17 @@ def main():
     principals_df = read_write.read(path06, schema06, spark_session)
     ratings_df = read_write.read(path07, schema07, spark_session)
 
-
     # name_df.show()
     # print(name_df.count())
     # name_df.printSchema()
-
+    #
     # akas_df.show()
     # print(akas_df.count())
     # akas_df.printSchema()
     #
-    basics_df.show()
-    print(basics_df.count())
-    basics_df.printSchema()
+    # basics_df.show()
+    # print(basics_df.count())
+    # basics_df.printSchema()
     #
     # crew_df.show()
     # print(crew_df.count())
@@ -180,9 +180,11 @@ def main():
     # print(ratings_df.count())
     # ratings_df.printSchema()
 
-    #task1.task1(akas_df)
-    #task2.task2(name_df)
-    #task3.task3(basics_df)
+    # task1.task1(akas_df)
+    # task2.task2(name_df)
+    # task3.task3(basics_df)
+    task4.task4(basics_df, name_df, principals_df)
+
 
 
 if __name__ == "__main__":
