@@ -9,6 +9,7 @@ import task2
 import task3
 import task4
 import task5
+import task6
 
 path01 = "imdb-data/name.basics.tsv.gz"
 path02 = "imdb-data/title.akas.tsv.gz"
@@ -153,40 +154,40 @@ def main():
     principals_df = read_write.read(path06, schema06, spark_session)
     ratings_df = read_write.read(path07, schema07, spark_session)
 
-    name_df.show()
-    print(name_df.count())
-    name_df.printSchema()
+    # name_df.show()
+    # print(name_df.count())
+    # name_df.printSchema()
+    #
+    # akas_df.show()
+    # print(akas_df.count())
+    # akas_df.printSchema()
+    #
+    # basics_df.show()
+    # print(basics_df.count())
+    # basics_df.printSchema()
+    #
+    # crew_df.show()
+    # print(crew_df.count())
+    # crew_df.printSchema()
 
-    akas_df.show()
-    print(akas_df.count())
-    akas_df.printSchema()
+    # episode_df.show()
+    # print(episode_df.count())
+    # episode_df.printSchema()
 
-    basics_df.show()
-    print(basics_df.count())
-    basics_df.printSchema()
-
-    crew_df.show()
-    print(crew_df.count())
-    crew_df.printSchema()
-
-    episode_df.show()
-    print(episode_df.count())
-    episode_df.printSchema()
-
-    principals_df.show()
-    print(principals_df.count())
-    principals_df.printSchema()
-
-    ratings_df.show()
-    print(ratings_df.count())
-    ratings_df.printSchema()
+    # principals_df.show()
+    # print(principals_df.count())
+    # principals_df.printSchema()
+    #
+    # ratings_df.show()
+    # print(ratings_df.count())
+    # ratings_df.printSchema()
 
     # task1.task1(akas_df)
     # task2.task2(name_df)
     # task3.task3(basics_df)
     # task4.task4(basics_df, name_df, principals_df)
     # task5.task5(akas_df, basics_df)
-
+    task6.task6(episode_df, basics_df)
 
 if __name__ == "__main__":
     main()
